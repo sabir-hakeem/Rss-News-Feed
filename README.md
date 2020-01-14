@@ -33,3 +33,6 @@ $ python manage.py runserver
 
 8. Open URL <br>
 http://localhost:8000
+
+<b><i>Note:</i></b>
+Set Proxy Credentials in 'Rss-News-Feed/Rss_Feed/views.py'
