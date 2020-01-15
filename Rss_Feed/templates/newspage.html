@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8"> 
+    <meta charset="utf-8">
+    {% load staticfiles %}
+    <link href="{%  static '/css/styles.css'  %}" rel="stylesheet" type="text/css" /> 
     <title>RSS News Feed</title>
 </head>
 <body>
@@ -9,13 +11,39 @@
         <h1> RSS News Feed</h1>
     </div>
     <div>
-        {% if message == 'success'%}
+        {% if message == 'success' %}
             {% for data in result %}
-            <a href="{{ data.title_link }}">{{ data.title }}</a>
-            <p>Posted On: {{ data.news_date }}</p>
-            <p>Source: <a href="{{ data.source_link }}">{{ data.source }}</a></p>
-            <br>
+                <div>
+                    <a href="{{ data.title_link }}">{{ data.title }}</a>
+                    <p>Posted On: {{ data.news_date }}</p>
+                    <p>Source: <a href="{{ data.source_link }}">{{ data.source }}</a></p>
+                </div>
+                <br>
             {% endfor %}
+
+            {% if result.has_other_pages %}
+                <ul class="pagination">
+                    {% if result.has_previous %}
+                        <li><a href="?page={{ result.previous_page_number }}">&laquo;</a></li>
+                    {% else %}
+                        <li class="disabled"><span>&laquo;</span></li>
+                    {% endif %}
+                    
+                    {% for i in result.paginator.page_range %}
+                        {% if result.number == i %}
+                            <li class="active"><span>{{ i }}</span></li>
+                        {% else %}
+                            <li><a href="?page={{ i }}">{{ i }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    
+                    {% if result.has_next %}
+                        <li><a href="?page={{ result.next_page_number }}">&raquo;</a></li>
+                    {% else %}
+                        <li class="disabled"><span>&raquo;</span></li>
+                    {% endif %}
+              </ul>
+            {% endif %}
         {% else %}
             <p style="color:red;"> {{ result }} </p>
         {% endif %}
@@ -26,5 +54,5 @@
     setTimeout(function() {
         document.location = "http://localhost:8000";
     }, 60 * 60 * 1000);
-    // 60 * 60 * 1000 -- time set for 1 hour for autorefresh and show the latest news
+    // 60 * 60 * 1000 - time set for 1 hour for autorefresh and show the latest news
 </script>

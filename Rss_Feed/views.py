@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 from django.shortcuts import render
 import json
 from django.views.generic.base import TemplateView
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import datetime
 from django.db import connection
 from .models import *
@@ -47,7 +48,14 @@ class NewspageHome(TemplateView):
                         insert_data = Newsapi.objects.create(title=title, title_link = link, source = source, source_link = source_link, news_date = date)
                         insert_data.save()
             final_data = Newsapi.objects.values('title', 'title_link', 'source', 'source_link', 'news_date').order_by('-news_date')
-            final_data = list(final_data)
+            paginator = Paginator(final_data, 10)
+            page = request.GET.get('page', 1)
+            try:
+                final_data = paginator.page(page)
+            except PageNotAnInteger:
+                final_data = paginator.page(1)
+            except EmptyPage:
+                final_data = paginator.page(paginator.num_pages)
             message = 'success'
         except Exception as e:
             final_data = str(e)
