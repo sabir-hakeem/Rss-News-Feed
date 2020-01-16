@@ -28,10 +28,15 @@ $ python manage.py makemigrations
 6. Migrate <br>
 $ python manage.py migrate
 
-7. Runserver <br>
+7. Check for <b>CRONJOBS</b> settings in settings.py file <br>
+
+8. Run Cronjob command <br>
+$ python manage.py crontab add
+
+9. Runserver <br>
 $ python manage.py runserver
 
-8. Open URL <br>
+10. Open URL <br>
 http://localhost:8000
 
 <b><i>Note:</i></b>
