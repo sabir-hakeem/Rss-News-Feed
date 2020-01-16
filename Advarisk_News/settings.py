@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'django_crontab',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -121,4 +122,11 @@ USE_TZ = False
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
+]
+
+# Cronjobs
+CRONJOBS = [
+    # For every 1 hour at 0th minute the below cronjob will fetch the news and add
+    # to database news incrementally
+    ('0 */1 * * *', 'Rss_Feed.cron.news_fetch_job')
 ]
