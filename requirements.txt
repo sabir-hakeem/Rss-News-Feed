@@ -9,7 +9,7 @@ Django==1.11.27
 django-crontab==0.7.1
 idna==2.8
 kombu==3.0.37
-lxml==4.4.2
+lxml==4.6.2
 pytz==2019.3
 requests==2.22.0
 soupsieve==1.9.5
